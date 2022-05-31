@@ -81,12 +81,14 @@ impl Client {
     fn get_stream_uri(&mut self, path: &'static str) -> String {
         format!("{}{}", &self.base_url.oanda_stream_host.to_owned(), self.get_uri(path).to_owned())
     }
+
     pub async fn price_stream(&mut self, mut request: crate::RequestBuilder) -> tokio_util::io::StreamReader<futures::stream::MapErr<futures::stream::IntoStream<warp::hyper::Body>, fn(warp::hyper::Error) -> std::io::Error>, warp::hyper::body::Bytes> {
+        #[allow(unused_imports)]
         use warp::hyper::body::HttpBody as _;
         if !request.headers().is_authorization_exist() {
             request.headers().with_authorization(self.app_key);
         }
-        let request = request.build(self.get_stream_uri("/v3/accounts/{accountID}/pricing/stream").as_str(), warp::hyper::Method::GET);
+        let request = request.stream().build(self.get_stream_uri("/v3/accounts/{accountID}/pricing/stream").as_str(), warp::hyper::Method::GET);
         let resp = self.client.request(request).await.unwrap();
 
         tokio_util::io::StreamReader::new(resp.into_body().into_stream().map_err(hyper_to_io))

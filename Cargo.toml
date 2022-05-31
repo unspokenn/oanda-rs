@@ -23,9 +23,28 @@ serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }
 serde_urlencoded = "0.7"
 tokio = { version = "1", features = ["full"] }
+tokio-util = { version = "^0.7", features = ["full"] }
 warp = "0.3"
 hyper-tls = { version = "0.5", features = ["vendored"] }
 futures = { version = "0.3", features = ["thread-pool"] }
 hashbrown = { version = "0.12", features = ["serde", "ahash-compile-time-rng", "rayon"] }
 chrono = { version = "0.4", features = ["serde"] }
 regex = "1.5"
+
+
+[profile.dev]
+opt-level = 0
+lto = false
+codegen-units = 256
+incremental = true
+debug-assertions = false
+overflow-checks = true
+debug = 1
+rpath = false
+
+# Set the default for dependencies.
+[profile.dev.package."*"]
+opt-level = 2
+
+[profile.dev.build-override]
+opt-level = 3

@@ -19,14 +19,6 @@ impl RequestBuilder {
             query: RequestQuery::new(),
         }
     }
-    #[inline(always)]
-    pub(crate) fn set_type(&mut self, is_stream: bool) -> &mut RequestBuilder {
-        if !is_stream {
-            self.api()
-        } else {
-            self.stream()
-        }
-    }
     pub(crate) fn api(&mut self) -> &mut RequestBuilder {
         self.headers().insert(USER_AGENT, "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1".try_into().unwrap()).insert(CONTENT_TYPE, "application/json".try_into().unwrap()).insert(ACCEPT, "application/json".try_into().unwrap());
         self
