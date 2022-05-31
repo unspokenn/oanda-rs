@@ -1,25 +1,31 @@
 [package]
 name = "oanda"
 version = "0.1.0"
-edition = "2021"
+authors = ["Sadık Ergüven <sadikerguven@gmail.com>"]
+description = "A short description of my package"
+repository = "https://github.com/unspokenn/oanda-rs"
+documentation = "https://docs.rs/oanda-rs"
+homepage = "https://github.com/unspokenn/oanda-rs"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = ["api", "client","oanda"]
+categories = ["web-programming::http-client", "api-bindings"]
 exclude = ["/ci/*", "/.github/*", "/.cirrus.yml", "/triagebot.toml", "/.idea/*", "/.git/*"]
+include = ["src/", "LICENSE-*", "README.md", "COPYRIGHT"]
+edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[badges]
+maintenance = { status = "actively-developed" }
 
 [dependencies]
-libc = { version = "^0.2", features = ["extra_traits"] }
+libc = { version = "0.2", features = ["extra_traits"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }
-serde_urlencoded = "^0.7"
+serde_urlencoded = "0.7"
 tokio = { version = "1", features = ["full"] }
-tokio-util = { version = "^0.7", features = ["full"] }
-warp = "^0.3"
-hyper-tls = { version = "^0.5", features = ["vendored"] }
-futures = { version = "^0.3", features = ["thread-pool"] }
-hashbrown = { version = "^0.12", features = ["serde", "ahash-compile-time-rng", "rayon"] }
-chrono = { version = "^0.4", features = ["serde"] }
+warp = "0.3"
+hyper-tls = { version = "0.5", features = ["vendored"] }
+futures = { version = "0.3", features = ["thread-pool"] }
+hashbrown = { version = "0.12", features = ["serde", "ahash-compile-time-rng", "rayon"] }
+chrono = { version = "0.4", features = ["serde"] }
 regex = "1.5"
-
-#[dependencies.warp.hyper]
-#version = "0.14"
-#features = ["stream", "server", "http1", "http2", "tcp", "client"]

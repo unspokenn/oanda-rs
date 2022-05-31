@@ -1,6 +1,5 @@
-use std::io::{Error, ErrorKind};
 use serde::{Deserialize, Serialize};
-use crate::{AccountProperties, Result};
+use crate::AccountProperties;
 
 #[repr(C)]
 #[derive(Debug, Serialize, Deserialize, Default)]
@@ -17,7 +16,7 @@ pub struct ListAccountsResponse200Body {
 }
 
 impl ListAccountsResponse200Body {
-    pub fn get_id(&self, account_index: usize) -> Result<String> {
+    pub fn get_id(&self, account_index: usize) -> crate::Result<String> {
         if let Some(ref accounts) = self.accounts {
             if let Some(ref account) = accounts.get(account_index) {
                 if let Some(ref id) = account.id {
@@ -25,6 +24,6 @@ impl ListAccountsResponse200Body {
                 }
             }
         }
-        Err(Error::new(ErrorKind::Other, "account response error!").into())
+        Err(std::io::Error::new(std::io::ErrorKind::Other, "account response error!").into())
     }
 }

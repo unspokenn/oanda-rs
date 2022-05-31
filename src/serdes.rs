@@ -39,24 +39,8 @@ pub(crate) mod serdates {
                     Utc,
                 );
                 Ok(Some(d))
-                //return Ok(Some(Utc::now()));
             };
         }
         Ok(None)
     }
 }
-
-// pub(crate) mod vec_to_slice {
-//     use chrono::prelude::*;
-//     use serde::{Deserialize, Deserializer, Serializer};
-//     use serde::ser::SerializeSeq;
-//
-//     pub fn serialize<S>(value: &Option<Vec<String>>, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer, {
-//         if let Some(ref v) = *value {
-//             let v: Vec<_> = v.iter().map(|x| x.as_bytes()).collect();
-//              return serializer.serialize_bytes(&v[..]);
-//         }
-//         serializer.serialize_none()
-//     }
-// }
-

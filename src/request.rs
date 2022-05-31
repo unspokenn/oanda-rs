@@ -1,7 +1,6 @@
-use serde::{Deserialize, Serialize};
-use warp::hyper::{Method, Body, Uri, Request};
+use serde::Serialize;
+use warp::hyper::Body;
 use warp::hyper::header::{ACCEPT, CONTENT_TYPE, USER_AGENT, AUTHORIZATION, HeaderName, HeaderValue, HeaderMap};
-use crate::AcceptDatetimeFormat;
 
 #[repr(C)]
 #[derive(Debug)]
@@ -49,8 +48,8 @@ impl RequestBuilder {
         &mut self.query
     }
     #[inline(always)]
-    pub(crate) fn build(&mut self, uri: &str, method: Method) -> Request<Body> {
-        let mut request = Request::new(self.body().build());
+    pub(crate) fn build(&mut self, uri: &str, method: warp::hyper::Method) -> warp::hyper::Request<Body> {
+        let mut request = warp::hyper::Request::new(self.body().build());
         *request.method_mut() = method.to_owned();
         *request.headers_mut() = self.headers().build();
         *request.uri_mut() = self.query().build(uri);
@@ -122,7 +121,7 @@ impl RequestHeader {
     }
     #[allow(unused)]
     #[inline(always)]
-    pub fn with_accept_datetime_format(&mut self, value: &AcceptDatetimeFormat) -> &mut RequestHeader {
+    pub fn with_accept_datetime_format(&mut self, value: &crate::AcceptDatetimeFormat) -> &mut RequestHeader {
         self.insert_str("AcceptDatetimeFormat", serde_json::to_string(value).unwrap().as_str());
         self
     }
@@ -167,11 +166,10 @@ impl RequestQuery {
         }
     }
     #[inline(always)]
-    pub(crate) fn build(&self, uri: &str) -> Uri {
+    pub(crate) fn build(&self, uri: &str) -> warp::hyper::Uri {
         if let Some(query) = &self.to_string() {
             format!("{}{}", uri, &query).parse().unwrap()
         } else {
-            // format!("{}", uri).parse::<Uri>().unwrap()
             uri.parse().unwrap()
         }
     }

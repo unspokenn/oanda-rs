@@ -18,26 +18,3 @@ pub struct StreamPricingResponse200Body {
     #[serde(rename = "heartbeat", skip_serializing_if = "Option::is_none")]
     pub heartbeat: Option<PricingHeartbeat>,
 }
-
-pub trait Streams {
-    fn new() -> Self;
-    fn push(&mut self, response: StreamPricingResponse200Body) -> &mut Self;
-}
-
-#[repr(C)]
-#[derive(Debug, Serialize, Deserialize)]
-pub struct StreamPricingResponses {
-    pub responses: Vec<StreamPricingResponse200Body>,
-}
-
-impl Streams for StreamPricingResponses {
-    fn new() -> Self {
-        StreamPricingResponses {
-            responses: vec![]
-        }
-    }
-    fn push(&mut self, response: StreamPricingResponse200Body) -> &mut Self {
-        self.responses.push(response);
-        self
-    }
-}
