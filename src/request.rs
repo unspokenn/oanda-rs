@@ -3,7 +3,7 @@ use warp::hyper::Body;
 use warp::hyper::header::{ACCEPT, CONTENT_TYPE, USER_AGENT, AUTHORIZATION, HeaderName, HeaderValue, HeaderMap};
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct RequestBuilder {
     headers: RequestHeader,
     body: RequestBody,
@@ -50,7 +50,7 @@ impl RequestBuilder {
 }
 
 #[repr(C)]
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct RequestBody {}
 
 impl RequestBody {
@@ -76,7 +76,7 @@ impl RequestBody {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct RequestHeader {
     map: HeaderMap,
 }
@@ -124,7 +124,7 @@ impl RequestHeader {
 }
 
 #[repr(C)]
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct RequestQuery {
     #[serde(rename = "instruments", skip_serializing_if = "Option::is_none")]
     instruments: Option<String>,
